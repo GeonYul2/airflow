@@ -1,0 +1,7 @@
+plugins/
+include/
+tests/
+scripts/
+.git/
+.venv/
+node_modules/
