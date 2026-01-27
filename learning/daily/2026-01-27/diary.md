@@ -13,6 +13,7 @@
 - [/] Assignment 02: `xcom_pull`을 활용한 실무형 분석 파이프라인 구축 중
 - [x] VS Code 워크스페이스 루트 설정과 가상환경(venv) 인식 최적화
 - [x] 윈도우 터미널(CMD vs PowerShell) 차이점 및 가상환경 활성화 방법 학습
+- [x] `plugins/` 폴더 생성 및 `docker-compose.yaml` 볼륨 마운트 가이드 작성
 
 ## ❓ Questions & Issues
 

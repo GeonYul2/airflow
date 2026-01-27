@@ -207,3 +207,35 @@ def my_function(**context):
 이제 `extract` 단계에서 뽑아온 데이터가 수천 개든 수만 개든, `transform` 단계에서 그대로 받아와서 파이썬의 강력한 라이브러리(Pandas 등)를 활용해 주무를 수 있게 됩니다.
 
 **주의**: `xcom_pull`을 쓸 때는 **`task_ids`**를 정확히 적어주어야 합니다. 쪽지함에서 엉뚱한 사람의 쪽지를 꺼내면 안 되니까요!
+
+---
+
+## [2026-01-27] Airflow Plugins 폴더 생성 및 Docker Compose 연동
+
+**질문**: plugins 폴더 하나 만들어줘. 그리고 docker-compose.yaml 파일에서 경로 수정하는 방법도 알려줘.
+
+**답변**: 에어플로우 확장을 위한 핵심적인 설정입니다. 단계별로 정리해 드립니다.
+
+### 1. Plugins 폴더 생성
+- 현재 프로젝트 루트인 `C:\vscode\airflow\plugins` 폴더가 생성되었음을 확인했습니다.
+- 이 폴더에 커스텀 Operator, Hook 등을 넣으면 에어플로우가 자동으로 로드합니다.
+
+### 2. Docker Compose 경로 수정 (볼륨 마운트)
+Docker 컨테이너가 내 로컬의 `plugins` 폴더를 인식하게 하려면 `docker-compose.yaml`의 `volumes` 섹션을 수정해야 합니다.
+
+```yaml
+volumes:
+  - ${AIRFLOW_PROJ_DIR:-.}/dags:/opt/airflow/dags
+  - ${AIRFLOW_PROJ_DIR:-.}/logs:/opt/airflow/logs
+  - ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins  # 이 줄을 추가하세요!
+```
+
+### 3. 반영 방법
+설정 수정 후에는 반드시 컨테이너를 재시작해야 합니다.
+```bash
+sudo docker compose down
+sudo docker compose up -d
+```
+
+> [!TIP]
+> 자세한 기술 가이드는 [docker_setup.md](file:///C:/vscode/airflow/docs/guides/docker_setup.md) 파일에 정리해 두었습니다. 앞으로 Docker 관련 설정은 이 문서를 참고해 주세요!
